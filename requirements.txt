@@ -18,7 +18,6 @@ py2app==0.7.1
 pyasn1==0.1.9
 pyasn1-modules==0.0.8
 PyAudio==0.2.9
-pygame==1.9.2a0
 pyobjc-core==2.3.2a0
 pyobjc-framework-AddressBook==2.3.2a0
 pyobjc-framework-AppleScriptKit==2.3.2a0
