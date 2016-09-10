@@ -3,18 +3,14 @@
 		<title>Commonality</title>
 	</head>
 	<body>
-	{{movies}}
-	<!-- <div id="header">
-	<b>Commonality</b></div><br><div id="subheader">Enter the actors' names to find out what movies they've worked in together !</div>
-		<form action="/result" method="post">
-			<div id="box1">
-	      		<input type="text" name="actor1">
-	      	</div>
-	      	<div id="box2">
-	      		<input type="text" name="actor2">
-	      	</div>
-	      	<div id="submit">
-	      <input type="submit" value="SUBMIT"></div>
-	  	</form></div1>
-	</body> -->
+	<div id="header">
+	<b>Commonality</b></div>
+	<div id="myList">
+	<ul>
+		{% for movie in movies %}
+			<li>{{movie}} </li><br><br>
+		{% endfor %}
+	</ul>
+	</div>
+	</body>
 </html>
