@@ -15,26 +15,15 @@ def index():
 def result():
 	actor1 = request.form['actor1']
 	actor2 = request.form['actor2']
-	findMovies(actor1, actor2)
-	return render_template('results.html')
-
-
-
-
-
-
+	bad_movies = list(findMovies(actor1, actor2))
+	good_movies = []
+	for movie in bad_movies:
+		good_movies.append(str(movie))
+	return render_template('results.html', movies = good_movies)
 
 def findMovies(name1, name2):
-	# name1 = raw_input('Enter the first actor/actress name: ')
-	# name2 = raw_input('Enter the second actor/actress name: ')
-
-	#name1 = "Robert Downey Junior"
-	#name2 = "Chris Evans" 
 	name1 = name1.lower()
 	name2 = name2.lower()
-
-	#artist = '\"' + artist + ' '
-	#song = song + '\"'
 
 	imdbWebsite = 'imdb+'
 	url = 'http://google.com/search?sourceid=navclient&btnI=1&q=' #imdbWebsite+%s
@@ -54,17 +43,11 @@ def findMovies(name1, name2):
 
 	content = soup.find("div", {"class": "filmo-category-section"})
 
-	#print content
 	paras = content.findAll('b')
-
-	#print paras
 
 	list1 = []
 	for para in paras:
-		#print '\n'
 		list1.append(para.getText())
-		#print para.getText()
-
 
 	var2 = requests.get(url2)
 	print var2.url
@@ -74,26 +57,13 @@ def findMovies(name1, name2):
 
 	content2 = soup2.find("div", {"class": "filmo-category-section"})
 
-	#print content2
 	paras2 = content2.findAll('b')
-
-	#print paras2
 
 	list2 = []
 	for para2 in paras2:
-		#print '\n'
 		list2.append(para2.getText())
-		#print para.getText()
-	print '\n'
 
-	print list1
-	print(' ')
-	print list2
-	print(' ' )
-	print set(list1).intersection(list2)
-
-	#print set(list1) & set(list2)
-
+	return set(list1).intersection(list2)
 
 if __name__ == '__main__':
     app.run(debug=True)
