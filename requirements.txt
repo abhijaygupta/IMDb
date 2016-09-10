@@ -1,7 +1,6 @@
 altgraph==0.10.1
 bdist-mpkg==0.4.4
 beautifulsoup4==4.4.1
-bonjour-py==0.3
 Flask==0.10.1
 google-api-python-client==1.4.2
 gunicorn==19.6.0
