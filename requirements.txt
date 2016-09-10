@@ -17,7 +17,6 @@ oauthlib==1.0.3
 py2app==0.7.1
 pyasn1==0.1.9
 pyasn1-modules==0.0.8
-PyAudio==0.2.9
 pyOpenSSL==0.13
 PyRSS2Gen==1.0.0
 python-dateutil==1.5
