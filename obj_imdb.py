@@ -2,13 +2,13 @@ import requests
 import urllib2
 from bs4 import BeautifulSoup
 
-#name1 = raw_input('Enter the first actor/actress name: ')
-#name2 = raw_input('Enter the second actor/actress name: ')
+name1 = raw_input('Enter the first actor/actress name: ')
+name2 = raw_input('Enter the second actor/actress name: ')
 
-name1 = "Brad Pitt"
-name2 = "George Clooney" 
-#name1 = name2.lower()
-#nam2 = name2.lower()
+#name1 = "Robert Downey Junior"
+#name2 = "Chris Evans" 
+name1 = name1.lower()
+name2 = name2.lower()
 
 #artist = '\"' + artist + ' '
 #song = song + '\"'
@@ -68,6 +68,8 @@ print(' ')
 print list2
 print(' ' )
 print set(list1).intersection(list2)
+
+#print set(list1) & set(list2)
 
 
 
