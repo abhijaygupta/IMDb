@@ -1,0 +1,61 @@
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
+		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='results.css') }}">
+		<script src="{{ url_for('static',filename='index.js') }}"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		<title>Commonality</title>
+	</head>
+	<body>
+		<div class="header">
+			<b>Results</b>
+		</div><br>
+		<!-- <div class="subheader">Enter the actors' names to find out what movies they've worked in together !</div> -->
+			<div class = "results">
+				<hr>
+				{% for movie in allMovies %}
+    				<div class = "eachResult">
+    					<div class = "pic">
+    						<img src="{{ movie.pic }}">
+    					</div>
+    					<div class="right">
+	    					<div class = "title">
+	    						<a href= "{{ movie.link }}" target="_blank">{{ movie.title }}</a>
+	    					</div>
+	    					<div class = "year">
+	    						({{ movie.year }})
+	    					</div>
+	    					<div class = "info">
+	    						{{ movie.info }}
+	    					</div>
+    					</div>
+    				</div>
+    				<hr>
+    			{% endfor %}
+			</div>
+			<div id="tryAgain" class="tryAgainDiv">
+				<button class = "tryAgain" onclick="showMe()">
+					Try again?
+				</button>
+			</div>
+			<form id="form" action="/results" method="post" style="display:none;">
+				<div class="subheader">Enter the actors' names!</div>
+				<div id="wrapper">
+				<div class="box" id="firstBox">
+		      		<input class="answers" type="text" name="actors[]">
+		      	</div>
+		      	<div class="box" id="test1">
+		      		<input class="answers" type="text" name="actors[]">
+		      	</div>
+		      	</div>
+		      	<div class="addSubmit">
+					<div title="Add more actors" class="round-button" onclick="addMore()">
+						+
+					</div>
+					<input type="submit" class="submit" value="SUBMIT">
+				</div>
+		  	</form>
+	</body>
+</html>

@@ -11,15 +11,23 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/result', methods = ['POST'])
-def result():
-	actor1 = request.form['actor1']
-	actor2 = request.form['actor2']
+@app.route('/results', methods = ['POST'])
+def results():
+	# actor1 = request.form['actor1']
+	# actor2 = request.form['actor2']
+	actor1 = "brad pitt"
+	actor2 = "angelina jolie"
 	bad_movies = list(findMovies(actor1, actor2))
 	good_movies = []
 	for movie in bad_movies:
 		good_movies.append(str(movie))
-	return render_template('results.html', movies = good_movies)
+	print good_movies
+	fullList = []
+	obj = {'title': 'Mr. & Mrs. Smith', 'year': '2005', 'link': 'http://www.imdb.com/title/tt0356910/', 'info': 'A bored married couple is surprised to learn that they are both assassins hired by competing agencies to kill each other.', 'pic': 'https://images-na.ssl-images-amazon.com/images/M/MV5BMTUxMzcxNzQzOF5BMl5BanBnXkFtZTcwMzQxNjUyMw@@._V1_UX182_CR0,0,182,268_AL_.jpg'} 
+	fullList.append(obj)
+	fullList.append(obj)
+	print fullList
+	return render_template('results.html', allMovies = fullList)
 
 def findMovies(name1, name2):
 	name1 = name1.lower()

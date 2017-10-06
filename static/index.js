@@ -3,6 +3,18 @@ function removeThis() {
 	// $(this).parent().remove();
 }
 
+function showMe() {
+	var tryAgain = document.getElementById('tryAgain');
+	$(tryAgain).hide(300);
+	var form = document.getElementById('form');
+	$(form).show(300);
+
+	//scroll
+	 $('html, body').animate({
+        scrollTop: $(form).offset().top
+    }, 2000);
+}
+
 function addMore() { 
 	//create a new big div first. then add a box with input field and deleteButton then appendto wrapper
  	var newDiv = document.createElement('div');
@@ -23,4 +35,13 @@ function addMore() {
  	document.getElementById('wrapper').appendChild(newDiv);
  	// $(newDiv).fadeIn(300);
  	$(newDiv).show(300);
+
+ 	//scroll
+ 	$('html, body').animate({
+        scrollTop: $(newDiv).offset().top
+    }, 2000);
 }
+
+// $("#addMore").click(function() {
+
+// });

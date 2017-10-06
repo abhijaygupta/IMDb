@@ -12,8 +12,8 @@
 		<div class="header">
 			<b>Commonality</b>
 		</div><br>
-		<div class="subheader">Enter the actors' names to find out what movies they've worked in together !</div>
-			<form action="/result" method="post">
+		<div class="subheader">Enter the actors' names to find out what movies they've worked in together!</div>
+			<form action="/results" method="post">
 				<div id="wrapper">
 				<div class="box" id="firstBox">
 		      		<input class="answers" type="text" name="actors[]">
@@ -23,7 +23,7 @@
 		      	</div>
 		      	</div>
 		      	<div class="addSubmit">
-					<div title="Add more actors" class="round-button" onclick="addMore()">
+					<div id="addMore" title="Add more actors" class="round-button" onclick="addMore()">
 						+
 					</div>
 					<input type="submit" class="submit" value="SUBMIT">
