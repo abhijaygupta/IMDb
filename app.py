@@ -62,12 +62,7 @@ def results():
 	for movie in good_movies:
 		findEverythingAboutMovie(movie)
 
-	fullList = []
-	# obj = {'title': 'Mr. & Mrs. Smith', 'year': '2005', 'link': 'http://www.imdb.com/title/tt0356910/', 'info': 'A bored married couple is surprised to learn that they are both assassins hired by competing agencies to kill each other.', 'pic': 'https://images-na.ssl-images-amazon.com/images/M/MV5BMTUxMzcxNzQzOF5BMl5BanBnXkFtZTcwMzQxNjUyMw@@._V1_UX182_CR0,0,182,268_AL_.jpg'} 
-	# fullList.append(obj)
-	# fullList.append(obj)
-	# print fullList
-	return render_template('results.html', allMovies = fullList, good_movies = good_movies)
+	return render_template('results.html', good_movies = good_movies)
 
 def findMoviesForActor(name):
 	name = name.lower()
