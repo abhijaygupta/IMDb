@@ -15,7 +15,7 @@
 		<!-- <div class="subheader">Enter the actors' names to find out what movies they've worked in together !</div> -->
 			<div class = "results">
 				<hr>
-				{% for movie in allMovies %}
+    			{% for movie in good_movies %}
     				<div class = "eachResult">
     					<div class = "pic">
     						<img src="{{ movie.pic }}">
@@ -25,7 +25,7 @@
 	    						<a href= "{{ movie.link }}" target="_blank">{{ movie.title }}</a>
 	    					</div>
 	    					<div class = "year">
-	    						({{ movie.year }})
+	    						{{ movie.year }}
 	    					</div>
 	    					<div class = "info">
 	    						{{ movie.info }}

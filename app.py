@@ -6,6 +6,28 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
+# movie Class
+class Movie(object):
+    title = ""
+    link = ""
+    year = ""
+    info = ""
+    pic = ""
+
+    # constructor
+    def __init__(self, title, link):
+        self.title = title
+        self.link = link
+
+    def addEverythingElse(self, year, info, pic):
+		self.year = year
+		self.info = info
+		self.pic = pic
+
+def createMovie(title, link):
+    movie = Movie(title, link)
+    return movie
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -13,35 +35,47 @@ def index():
 
 @app.route('/results', methods = ['POST'])
 def results():
-	# actor1 = request.form['actor1']
-	# actor2 = request.form['actor2']
-	actor1 = "brad pitt"
-	actor2 = "angelina jolie"
-	bad_movies = list(findMovies(actor1, actor2))
+	actors = request.form.getlist('actors[]')
+	first = True
 	good_movies = []
-	for movie in bad_movies:
-		good_movies.append(str(movie))
-	print good_movies
-	fullList = []
-	obj = {'title': 'Mr. & Mrs. Smith', 'year': '2005', 'link': 'http://www.imdb.com/title/tt0356910/', 'info': 'A bored married couple is surprised to learn that they are both assassins hired by competing agencies to kill each other.', 'pic': 'https://images-na.ssl-images-amazon.com/images/M/MV5BMTUxMzcxNzQzOF5BMl5BanBnXkFtZTcwMzQxNjUyMw@@._V1_UX182_CR0,0,182,268_AL_.jpg'} 
-	fullList.append(obj)
-	fullList.append(obj)
-	print fullList
-	return render_template('results.html', allMovies = fullList)
 
-def findMovies(name1, name2):
-	name1 = name1.lower()
-	name2 = name2.lower()
+	for actor in actors:
+		print 'starting for actor ' + actor
+		if first:
+			good_movies = findMoviesForActor(actor) #no intersection cause good_movies in empty at first
+			first = False
+		else:
+			new_movies = findMoviesForActor(actor)
+			
+			#intersection
+			titlesInOriginal = set(x.title for x in good_movies)  # All movie titles in good_movies
+			intersection = [y for y in new_movies if y.title in titlesInOriginal] #intersection only if new movie titles are in good_movies
+
+			good_movies = intersection
+
+	#test
+	# for e in good_movies:
+	# 	print e.title
+	# 	print e.link
+	# 	print ''
+
+	for movie in good_movies:
+		findEverythingAboutMovie(movie)
+
+	fullList = []
+	# obj = {'title': 'Mr. & Mrs. Smith', 'year': '2005', 'link': 'http://www.imdb.com/title/tt0356910/', 'info': 'A bored married couple is surprised to learn that they are both assassins hired by competing agencies to kill each other.', 'pic': 'https://images-na.ssl-images-amazon.com/images/M/MV5BMTUxMzcxNzQzOF5BMl5BanBnXkFtZTcwMzQxNjUyMw@@._V1_UX182_CR0,0,182,268_AL_.jpg'} 
+	# fullList.append(obj)
+	# fullList.append(obj)
+	# print fullList
+	return render_template('results.html', allMovies = fullList, good_movies = good_movies)
+
+def findMoviesForActor(name):
+	name = name.lower()
 
 	imdbWebsite = 'imdb+'
 	url = 'http://google.com/search?sourceid=navclient&btnI=1&q=' #imdbWebsite+%s
-	url = url+imdbWebsite+'\"'+name1+'\"'
+	url = url+imdbWebsite+'\"'+name+'\"'
 	print url
-
-	url2 = 'http://google.com/search?sourceid=navclient&btnI=1&q=' #imdbWebsite+%s
-	url2 = url2+imdbWebsite+'\"'+name2+'\"'
-	print url2
-
 
 	var = requests.get(url)
 	print var.url
@@ -53,25 +87,46 @@ def findMovies(name1, name2):
 
 	paras = content.findAll('b')
 
-	list1 = []
+	moviesForThisActor = []
 	for para in paras:
-		list1.append(para.getText())
+		title = para.getText()
+		tempLink = para.find("a")["href"]
+		#now extract actual link
+		positionOfQuestionMark = tempLink.index('?')
+		link = 'http://www.imdb.com' + tempLink[:positionOfQuestionMark] #subtring till question mark
 
-	var2 = requests.get(url2)
-	print var2.url
+		#now create movie object and append
+		moviesForThisActor.append(createMovie(title, link))
 
-	html2 = urllib2.urlopen(var2.url).read()
-	soup2 = BeautifulSoup(html2, "html.parser")
+	return moviesForThisActor
 
-	content2 = soup2.find("div", {"class": "filmo-category-section"})
+def findEverythingAboutMovie(movie):
+	link = movie.link.lower()
 
-	paras2 = content2.findAll('b')
+	var = requests.get(link)
+	print var.url
 
-	list2 = []
-	for para2 in paras2:
-		list2.append(para2.getText())
+	html = urllib2.urlopen(var.url).read()
+	soup = BeautifulSoup(html, "html.parser")
 
-	return set(list1).intersection(list2)
+	yearHTML = soup.find("span", id="titleYear")
+	year = yearHTML.getText()
+
+	infoHTML = soup.find("div", {"class": "summary_text"})
+	info = infoHTML.getText()
+
+	picHTML = soup.find("div", {"class": "poster"})
+	pic = picHTML.find("img")["src"]
+
+	movie.addEverythingElse(year, info, pic)
+	
+	#test
+	# print 'now priting movie stuff'
+	# print movie.year
+	# print movie.info
+	# print movie.pic
+
+	return movie
 
 if __name__ == '__main__':
     app.run(debug=True)
